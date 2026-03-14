@@ -152,12 +152,13 @@ if [[ "${SETUP_SWARM}" == "true" ]]; then
             --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
             --mount type=volume,source=traefik-certificates,target=/certificates \
             --network traefik-public \
+            --env DOCKER_API_VERSION=1.41 \
             --label "traefik.enable=true" \
             --label "traefik.constraint-label=traefik-public" \
             --label "traefik.http.routers.traefik-dashboard-http.rule=Host(\`traefik.localhost\`)" \
             --label "traefik.http.routers.traefik-dashboard-http.entrypoints=http" \
             --label "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080" \
-            traefik:v3.0 \
+            traefik:v3.6 \
             --providers.swarm=true \
             --providers.swarm.exposedByDefault=false \
             --providers.swarm.constraints="Label(\`traefik.constraint-label\`, \`traefik-public\`)" \

@@ -21,15 +21,16 @@ RUNNER_DIR="/home/${RUNNER_USER}/actions-runner"
 RUNNER_VERSION="2.317.0"
 
 # Передаются как аргументы скрипта:
-# ./setup-runner.sh <GITHUB_URL> <RUNNER_TOKEN> <RUNNER_NAME> <DEPLOY_PRIVATE_KEY>
+# ./setup-runner.sh <GITHUB_URL> <RUNNER_TOKEN> <RUNNER_NAME> <DEPLOY_PRIVATE_KEY> <RUNNER_TAGS>
 #
 # Пример:
-# ./setup-runner.sh https://github.com/your-org ghp_tokenXXX runner-01 "$(cat deploy_key)"
+# ./setup-runner.sh https://github.com/your-org ghp_tokenXXX runner-01 "$(cat deploy_key)" "vpn,production"
 
 GITHUB_URL="${1:?'Укажи GitHub URL (https://github.com/org или https://github.com/org/repo)'}"
 RUNNER_TOKEN="${2:?'Укажи токен раннера из GitHub Settings → Actions → Runners → New runner'}"
 RUNNER_NAME="${3:-$(hostname)}"
 DEPLOY_KEY="${4:-}"  # опционально
+RUNNER_TAGS="${5:-vpn}"  # опционально, по умолчанию "vpn"
 
 # ── Проверка ОС ────────────────────────────
 [[ "$(lsb_release -si)" != "Ubuntu" ]] && error "Скрипт рассчитан на Ubuntu"
@@ -142,7 +143,7 @@ sudo -u "${RUNNER_USER}" "${RUNNER_DIR}/config.sh" \
     --url "${GITHUB_URL}" \
     --token "${RUNNER_TOKEN}" \
     --name "${RUNNER_NAME}" \
-    --labels "self-hosted,vpn,linux,x64" \
+    --labels "self-hosted,linux,x64,${RUNNER_TAGS}" \
     --work "_work" \
     --unattended \
     --replace
@@ -195,6 +196,7 @@ echo -e "${GREEN}  Раннер успешно настроен!${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "  Имя раннера : ${RUNNER_NAME}"
+echo "  Теги        : self-hosted,linux,x64,${RUNNER_TAGS}"
 echo "  GitHub URL  : ${GITHUB_URL}"
 echo "  Директория  : ${RUNNER_DIR}"
 echo "  Пользователь: ${RUNNER_USER}"

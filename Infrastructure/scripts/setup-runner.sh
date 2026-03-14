@@ -149,6 +149,13 @@ fi
 
 # ── 7. Регистрация раннера ─────────────────
 log "Регистрация раннера в GitHub..."
+
+# Если раннер уже сконфигурирован — удаляем старую конфигурацию
+if [[ -f "${RUNNER_DIR}/.runner" ]]; then
+    warn "Раннер уже сконфигурирован, удаляем старую конфигурацию..."
+    sudo -u "${RUNNER_USER}" "${RUNNER_DIR}/config.sh" remove --token "${RUNNER_TOKEN}" 2>/dev/null || true
+fi
+
 sudo -u "${RUNNER_USER}" "${RUNNER_DIR}/config.sh" \
     --url "${GITHUB_URL}" \
     --token "${RUNNER_TOKEN}" \

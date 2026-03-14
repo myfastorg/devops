@@ -86,10 +86,9 @@ log "Установка Ansible..."
 if command -v ansible &>/dev/null; then
     warn "Ansible уже установлен, пропускаем"
 else
-    sudo -u "${RUNNER_USER}" pip3 install --user ansible --quiet
-    # Добавляем ~/.local/bin в PATH
-    echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/${RUNNER_USER}/.bashrc
-    log "Ansible установлен: $(sudo -u ${RUNNER_USER} /home/${RUNNER_USER}/.local/bin/ansible --version | head -1)"
+    # Ubuntu 24.04+ запрещает pip без флага (PEP 668), используем apt
+    apt-get install -y -qq ansible
+    log "Ansible установлен: $(ansible --version | head -1)"
 fi
 
 # ── 5. SSH ключ для деплоя ─────────────────

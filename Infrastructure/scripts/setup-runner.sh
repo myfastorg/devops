@@ -32,6 +32,17 @@ RUNNER_NAME="${3:-$(hostname)}"
 DEPLOY_KEY="${4:-}"  # опционально
 RUNNER_TAGS="${5:-vpn}"  # опционально, по умолчанию "vpn"
 
+# Если ключ не передан аргументом — ищем сами в стандартных местах
+if [[ -z "${DEPLOY_KEY}" ]]; then
+    for KEY_PATH in /tmp/deploy_key/deploy_key /tmp/deploy_key /root/deploy_key; do
+        if [[ -f "${KEY_PATH}" ]]; then
+            DEPLOY_KEY="$(cat "${KEY_PATH}")"
+            log "Deploy ключ найден: ${KEY_PATH}"
+            break
+        fi
+    done
+fi
+
 # ── Проверка ОС ────────────────────────────
 [[ "$(lsb_release -si)" != "Ubuntu" ]] && error "Скрипт рассчитан на Ubuntu"
 [[ "$EUID" -ne 0 ]] && error "Запусти с sudo"

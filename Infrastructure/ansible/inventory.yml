@@ -1,0 +1,11 @@
+all:
+  children:
+    vpn:
+      hosts:
+        # Целевые серверы КУДА деплоишь (не раннеры)
+        vpn-web-api.lc:
+          ansible_host: 62.109.14.19
+          ansible_user: root
+      vars:
+        ansible_ssh_private_key_file: ~/.ssh/deploy_key
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

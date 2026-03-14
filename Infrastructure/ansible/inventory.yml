@@ -9,7 +9,7 @@ all:
         vpn_outline_main:
           ansible_host: 86.110.194.59
           ansible_user: root
-        vpn:
+        vpn_server:
           ansible_host: 188.120.245.223
           ansible_user: root
         vpn_refferalrelay:

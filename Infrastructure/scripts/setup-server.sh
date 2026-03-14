@@ -155,7 +155,7 @@ if [[ "${SETUP_SWARM}" == "true" ]]; then
             --providers.swarm.constraints="Label(\`traefik.constraint-label\`, \`traefik-public\`)" \
             --entrypoints.http.address=:80 \
             --entrypoints.https.address=:443 \
-            --certificatesresolvers.le.acme.email=admin@example.com \
+            --certificatesresolvers.le.acme.email=admin@localhost.ru \
             --certificatesresolvers.le.acme.storage=/certificates/acme.json \
             --certificatesresolvers.le.acme.tlschallenge=true \
             --accesslog \
@@ -218,6 +218,6 @@ echo "  docker network ls                  # список сетей"
 echo ""
 if [[ "${SETUP_SWARM}" == "true" ]]; then
 echo -e "${YELLOW}  Не забудь поменять email для Let's Encrypt в Traefik!${NC}"
-echo "  Сейчас стоит: admin@example.com"
+echo "  Сейчас стоит: admin@localhost.ru"
 echo ""
 fi

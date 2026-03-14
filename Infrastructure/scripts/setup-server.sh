@@ -33,6 +33,14 @@ YCR_TOKEN="${1:?'Укажи токен Yandex Container Registry (IAM или OAu
 SETUP_SWARM=false
 SWARM_ADVERTISE_ADDR=""
 
+# Автоопределение типа токена
+# IAM токен начинается с t1. — остальное OAuth
+if [[ "${YCR_TOKEN}" == t1.* ]]; then
+    YCR_TOKEN_TYPE="iam"
+else
+    YCR_TOKEN_TYPE="oauth"
+fi
+
 # Парсим остальные аргументы
 shift
 while [[ $# -gt 0 ]]; do
@@ -93,12 +101,12 @@ else
 fi
 
 # ── 3. Авторизация в Yandex Container Registry ─────────────────────────────────
-log "Авторизация в Yandex Container Registry..."
-echo "${YCR_TOKEN}" | docker login --username iam --password-stdin cr.yandex
+log "Авторизация в Yandex Container Registry (тип токена: ${YCR_TOKEN_TYPE})..."
+echo "${YCR_TOKEN}" | docker login --username "${YCR_TOKEN_TYPE}" --password-stdin cr.yandex
 log "Авторизация успешна"
 
 # Чтобы авторизация сохранялась после перезагрузки — прописываем в cron
-CRON_CMD="echo '${YCR_TOKEN}' | docker login --username iam --password-stdin cr.yandex"
+CRON_CMD="echo '${YCR_TOKEN}' | docker login --username ${YCR_TOKEN_TYPE} --password-stdin cr.yandex"
 (crontab -l 2>/dev/null | grep -v "cr.yandex"; echo "@reboot ${CRON_CMD}") | crontab -
 log "Авторизация YCR настроена при перезагрузке"
 

@@ -6,6 +6,18 @@ all:
         vpn-web-api.lc:
           ansible_host: 62.109.14.19
           ansible_user: root
+        vpn_outline_main:
+          ansible_host: 86.110.194.59
+          ansible_user: root
+        vpn:
+          ansible_host: 188.120.245.223
+          ansible_user: root
+        vpn_refferalrelay:
+          ansible_host: 45.150.9.156
+          ansible_user: root
+        vpn_outline_outlinemanager:
+          ansible_host: 92.63.105.235
+          ansible_user: root
       vars:
         ansible_ssh_private_key_file: ~/.ssh/deploy_key
         ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

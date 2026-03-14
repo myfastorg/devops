@@ -202,6 +202,13 @@ log "Очистка Docker настроена (каждый день в 3:00, л
 
 # ── 9. Systemd сервис ──────────────────────
 log "Настройка автозапуска через systemd..."
+
+# Если сервис уже существует — останавливаем и удаляем
+if "${RUNNER_DIR}/svc.sh" status 2>/dev/null | grep -q "active\|inactive\|failed"; then
+    "${RUNNER_DIR}/svc.sh" stop 2>/dev/null || true
+    "${RUNNER_DIR}/svc.sh" uninstall 2>/dev/null || true
+fi
+
 "${RUNNER_DIR}/svc.sh" install "${RUNNER_USER}"
 "${RUNNER_DIR}/svc.sh" start
 

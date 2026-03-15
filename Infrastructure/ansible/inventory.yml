@@ -18,6 +18,9 @@ all:
         vpn_outline_outlinemanager:
           ansible_host: 92.63.105.235
           ansible_user: root
+        authorization.rutech.tech:
+          ansible_host: 188.120.246.133
+          ansible_user: root
       vars:
         ansible_ssh_private_key_file: ~/.ssh/deploy_key
         ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

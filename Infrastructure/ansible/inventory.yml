@@ -18,7 +18,7 @@ all:
         vpn_outline_outlinemanager:
           ansible_host: 92.63.105.235
           ansible_user: root
-        authorization.rutech.tech:
+        authorization_infrastructure:
           ansible_host: 188.120.246.133
           ansible_user: root
       vars:

@@ -21,6 +21,12 @@ all:
         authorization_infrastructure:
           ansible_host: 188.120.246.133
           ansible_user: root
+        nexus_main:
+          ansible_host: 45.150.10.41
+          ansible_user: root
+        nexus_main:
+          ansible_host: 45.150.10.41
+          ansible_user: root
       vars:
         ansible_ssh_private_key_file: ~/.ssh/deploy_key
         ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
